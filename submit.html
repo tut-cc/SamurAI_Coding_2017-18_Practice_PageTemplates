@@ -1,0 +1,104 @@
+{{define "content"}}
+<div class="col-sm-12">
+	<div class="col-sm-6 col-centered">
+		<div class="well bs-component">
+			<form action="/submit" method="POST" enctype="multipart/form-data" role="form" data-toggle="validator">
+				<fieldset>
+				<legend>Submit</legend>
+					<div class="form-group">
+						<label for="archive" >Choose your file archive</label>
+						<input type="file" class="form-control-file" id="archive" name="archive" required data-maxfilesize="64" accept="application/zip,application/gzip,application/x-gzip,application/x-bzip,application/x-bzip2,application/x-xz" data-mimetype="application/zip,application/gzip,application/x-gzip,application/x-bzip,application/x-bzip2,application/x-xz">
+						<div class="help-block with-errors">
+							<p>We will recieve a acommon achive(zip, tar.gz, tar.bz2, tar.xz).<p>
+							<p>See <a href="/about">here</a> for more infomation.</p>
+						</div>
+					</div>
+					<input type="hidden" class="form-control" id="vs" name="vs" value="sanpin">
+					{{if eq "" ""}}
+					<div class="form-group">
+						<label for="vs">Select player which you want to game</label>
+						<div id="vs-selector" class="list-group">
+          	</div>
+					</div>
+					<script type="text/javascript">
+						$(function () {
+							var dat = JSON.parse({{.Battlers}});
+							var dst = $();
+							dat.battlers.forEach(function(v, i, arr) {
+								var left = $();
+								left = left.add('<img src="/public/img/icon.png" width="32px" align"left">');
+								// left = left.add('<img src="/icons/' + v + ' width="32px" align"left">');
+								left = left.wrapAll('<div class="media-left" />').parent();
+								var right = $();
+								right = right.add('<p style="display: table-cell;">' + v + '</p>');
+								right = right.wrapAll('<div class="media-body" style="vertical-align: middle;" />');
+								var sub = $();
+								sub = sub.add(left);
+								sub = sub.add(right);
+								sub = sub.wrapAll("<media />").parent();
+								sub = sub.wrapAll('<div class="list-group-item clickable" />').parent();
+								if (i == arr.length - 1) {
+									$('#vs')[0].value = v;
+									sub.addClass('active');
+								}
+								dst = dst.add(sub);
+							});
+							$('#vs-selector').append(dst);
+							
+							$('#vs-selector').on('click', '.clickable', function(event) {
+								$('#vs')[0].value = dat.battlers[$(this).prevAll().length];
+								$(this).addClass('active').siblings().removeClass('active');
+							});
+						});
+					</script>
+					{{end}}
+					<div class="form-group">
+						<label for="course" >Choose your file archive</label>
+						<input type="file" class="form-control-file" id="course" name="course">
+						<div class="help-block">
+							<p>It is not required field.</p>
+						</div>
+					</div>
+          <div class="form-group">
+          	<div class="col-sm-10 col-centered" style="text-align: center;">
+          		<div class="g-recaptcha" data-sitekey="{{.RecaptchaPublicKey}}" style="display: inline-block"></div>
+          	</div>
+          </div>
+					<div class="form-group col-sm-3 col-centered">
+						<button type="submit" id="button-confirm" class="btn btn-primary">Submit</button>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+		{{if ne .Message ""}}
+		<div class="col-sm-12 col-centered">
+			<div class="bs-component">
+				<div class="alert alert-dismissible alert-danger">
+					<button type="button" class="close" data-dismiss="alert">×</button>
+					<p><strong>Error</strong> {{.Message}}</p>
+				</div>
+			</div>
+		</div>
+		{{end}}
+	</div>
+</div>
+<script type="text/javascript">
+$('form[data-toggle="validator"]').validator({
+	custom: {
+		maxfilesize: function ($el) {
+			var maxBytes = $el.data('maxfilesize') * 1024 * 1024;
+			if ($el[0].files[0].size > maxBytes) {
+				return "File must be smaller than " + $el.data('maxfilesize') + " MiB.";
+			}
+		},
+		mimetype: function ($el) {
+			var acceptableTypes = $el.data('mimetype').split(',');
+			var fileType = $el[0].files[0].type;
+			if (!acceptableTypes.includes(fileType)) {
+				return "Invalid file type(We will accept zip, tar.gz, tar.bz2 and tar.xz file)";
+			}
+		}
+	}
+});
+</script>
+{{end}}

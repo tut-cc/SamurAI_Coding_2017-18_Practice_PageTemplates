@@ -1,0 +1,52 @@
+{{define "content"}}
+<div class="col-sm-12">
+	<div class="well">
+		<h1>About</h1>
+	</div>
+{{if eq .Lang "ja"}}
+	<section>
+		<h2 class="page-header">このサイトは？</h2>
+		<p>「手軽に練習会・予選・本戦で使われるゲームサーバでの動作を確認できる」 ことを目的としたサイトです。</p>
+		<p>本番サーバでAIが正しく動作するか確認したり、本番サーバ上での最適化（時間調整）を試したりする目的で利用してください。</p>
+		<p>予選前の他ユーザとの対戦については練習会を用意する予定です。</p>
+	</section>
+	
+	<section>
+		<h2 class="page-header">使い方</h2>
+		<p><a href="/register">Register</a>からユーザ登録を行ってください。メールアドレスは必須項目ではありません。</p>
+		<p>登録を終えたら<a href="/login">Login</a>していただき、提出や結果の確認を行ってください。</p>
+		<h3>提出の形式</h3>
+		<p>プログラムを書いたら、<code>compile.sh</code>と<code>run.sh</code>をトップディレクトリに含んだ状態で圧縮をしてください。
+		<br />各<a href="https://ja.wikipedia.org/wiki/%E3%82%B7%E3%82%A7%E3%83%AB%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%97%E3%83%88" target="_blank">シェルスクリプト</a>はそれぞれコンパイル時、実行開始時に呼ばれます。また、圧縮ファイル形式はzip, tar.gz, tar.bz2, tar.xzを受理します。</p>
+		<p><a href="/public/sample/test.zip">こちら</a>にサンプルのgreedyプレイヤをzip形式に圧縮したファイルを用意しました。参考にしてください。</p>
+		<p>使用可能な言語は現在C/C++, java, python3（それぞれ標準ライブラリのみ）となっていますが、<br />
+		他に使いたい言語/ライブラリがございましたらぜひご連絡ください。可能な限り対応します。</p>
+		<p><a href="https://github.com/SamurAI-Coding/AIContainer2017-18" target="_blank">こちらのリポジトリ</a>でゲームサーバで実行される Dockerfile を公開しています。<br />
+		「Go言語を使いたい！」などを<a href="https://github.com/SamurAI-Coding/AIContainer2017-18/issues" target="_blank">Issue</a>でお知らせいただくか、<a href="mailto:samurai-contact@ipsj.or.jp">samurai-contact@ipsj.or.jp</a>までメールください。<br />
+		もちろん、ご自身で Dockerfile を書き pull request を行っていただいても大丈夫です。</p>
+	</section>
+{{else}}
+	<section>
+		<h2 class="page-header">What is this page?</h2>
+		<p>This web site is aimed at confirming the AI behavior easily on the game server which is used at practice, preliminary and final round.</p>
+		<p>You can use it for checking whether the AI to work properly, or trying optimization (time adjustment) on the game server.</p>
+		<p>We plan to prepare practice sessions for battle with other users before qualifying.</p>
+	</section>
+	
+	<section>
+		<h2 class="page-header">How to use</h2>
+		<p>Please <a href="/register">Register</a> at first.</p>
+		<p>If you finished it and <a href="/login">Login</a>, you can check submits and results.</p>
+		<h3>Submit Format</h3>
+		<p>You need to submit the program in an archive including <code>compile.sh</code> and <code>run.sh</code> at top directory.
+		<br />Each <a href="https://en.wikipedia.org/wiki/Shell_script" target="_blank">shell scripts</a> are run at the compiling, the execution start respectively.  Additionally, We will accept the archive file types that are .zip, .tar.gz, .tar.bz2, .tar.xz</p>
+		<p>The acceptable zip archive which is including the greedy player of samples is <a href="/public/sample/test.zip">here</a>.  Please refer.</p>
+		<p>You can use C/C++, Java, Python 3 only now.  If you want another languages andor libraries, you must let us know.  We will accept it as much as possible.<br />
+		</p><p>
+		<p><a href="https://github.com/SamurAI-Coding/AIContainer2017-18" target="_blank">This repository</a> publish the Dockerfile which is used on the game server.<br />
+		Please tell us about a request such as "wanna use golang!" to <a href="https://github.com/SamurAI-Coding/AIContainer2017-18/issues" target="_blank">GitHub Issue</a> or <a href="mailto:samurai-contact@ipsj.or.jp">samurai-contact@ipsj.or.jp</a><br />
+		Of course you can DIY.</p>
+	</section>
+{{end}}
+</div>
+{{end}}

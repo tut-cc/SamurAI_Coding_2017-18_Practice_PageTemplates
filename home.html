@@ -1,0 +1,151 @@
+{{define "content"}}
+	<div class="col-sm-12">
+		<h1>
+			<span class="glyphicon glyphicon-home"></span>
+{{if eq .Lang "ja"}}
+			ホーム
+{{else}}
+			Home
+{{end}}
+		</h1>
+		<hr>
+{{if eq .Lang "ja"}}
+		<section>
+			<h3>
+				提出
+				<small>
+					果し状を執筆する<span class="glyphicon glyphicon-pencil"></span>
+				</small>
+			</h3>
+			<p><a href="./submit">Submitページ</a>から提出を行うことができます。</p>
+			<p>提出形式がわからない場合、<a href="./about">Aboutページ</a>をご参照ください。</p>
+{{else}}
+		<section>
+			<h3>
+				Submit
+				<small>
+					Write a Hatashi-Jou (letter of challenge)<span class="glyphicon glyphicon-pencil"></span>
+				</small>
+			</h3>
+			<p>You can submits from <a href="./submit">the submit page</a></p>
+			<p>If you do not know the format of a submit, please refer <a href="./about">the about page</a></p>
+{{end}}
+		</section>
+		<hr>
+		<section>
+{{if eq .Lang "ja"}}
+			<h3>結果</h3>
+			<p>最新1つの提出の結果のみを確認することができます。</p>
+{{else}}
+			<h3>Result</h3>
+			<p>You can view the result of latest one submission.</p>
+{{end}}
+{{if ne .Result ""}}
+			<table id="result-table" class="table table-striped table-hover">
+				<thead>
+					<tr>
+						<th style="vertical-align: middle; text-align: center;">#</th>
+{{if eq .Lang "ja"}}
+						<th style="vertical-align: middle; text-align: center;">対戦相手</th>
+						<th style="vertical-align: middle; text-align: center;">状態</th>
+						<th style="vertical-align: middle; text-align: center;">提出時刻</th>
+						<th style="vertical-align: middle; text-align: center;">開始時刻</th>
+						<th style="vertical-align: middle; text-align: center;">終了時刻</th>
+						<th style="vertical-align: middle; text-align: center;">詳細</th>
+{{else}}
+						<th style="vertical-align: middle; text-align: center;">Opponent</th>
+						<th style="vertical-align: middle; text-align: center;">Status</th>
+						<th style="vertical-align: middle; text-align: center;">Submission Date</th>
+						<th style="vertical-align: middle; text-align: center;">Start Date</th>
+						<th style="vertical-align: middle; text-align: center;">End Date</th>
+						<th style="vertical-align: middle; text-align: center;">Detail</th>
+{{end}}
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+{{if ne .Answer ""}}
+			<div id="win-or-lose" class="bs-component">
+				<div class="well col-sm-4 col-centered text-center">
+					<p class="text-left">{{if eq .Lang "ja"}}拙者{{else}}Me{{end}} <img src="/public/img/icon.png" width="32px"></p>
+					<p><span class="lead">{{.MySumTime}}</span> - <span class="lead">{{.OppSumTime}}</span></p>
+					<p class="text-right"><img src="/public/img/icon.png" width="32px"> {{if eq .Lang "ja"}}其方{{else}}Opponent{{end}}</p>
+					<div id="answer" class="col-sm-6 col-centered">
+					</div>
+				</div>
+			</div>
+{{end}}
+			<script type="text/javascript">
+				var dat = function(raw) {
+					var res = [];
+					raw.results.forEach(function(val) {
+						var sub = {};
+						sub.playerNumber = val.playerNumber;
+						sub.opponentName = '<span><img src="/public/img/icon.png" width="32px"> ' + val.opponentName + '</span>';
+						// sub.opponentName = '<p class="text-left">' + val.opponentName + ' <img src="/icons/' + val.opponentName + '" width="32px"></p>';
+						switch (val.status) {
+							case 0:
+								sub.status = '<span class="label label-success">Succuess</span>';
+								break;
+							case 1:
+								sub.status = '<span class="label label-default">In queue...</span>';
+								break;
+							case 2:
+								sub.status = '<span class="label label-primary">Running...</span>';
+								break;
+							case -1:
+								sub.status = '<span class="label label-danger">Error</span>';
+								break;
+							default:
+								console.log("status is invalid, call manager.");
+						}
+						var dateFormat = function(unixTime) {
+							var f = function(d) {
+								return ("0" + d).substr(-2);
+							}
+							var t = new Date(unixTime * 1000);
+							return '<span data-toggle="tooltip" data-placement="bottom" title="' + t.toString() + '">' + t.getFullYear() + '/' + f(t.getMonth() + 1) + '/' + f(t.getDate()) + ' ' + f(t.getHours()) + ':' + f(t.getMinutes()) + ':' + f(t.getSeconds()) + '</span>';
+						}
+						sub.submitDate = dateFormat(val.submitDate);
+						if (val.gameStartDate == 0) {
+							sub.gameStartDate = "-";
+						} else {
+							sub.gameStartDate = dateFormat(val.gameStartDate);
+						}
+						if (val.gameEndDate == 0) {
+							sub.gameEndDate = "-";
+						} else {
+							sub.gameEndDate = dateFormat(val.gameEndDate);
+						}
+						sub.detail = '<a href="/result/' + sub.playerNumber + '">Detail</a>';
+						res.push(sub);
+						$(function() {
+							$('[data-toggle="tooltip"]').tooltip();
+						});
+					});
+					return res;
+				}(JSON.parse({{.Result}}));
+				var dst = $();
+				dat.forEach(function(v) {
+					var sub = $();
+					Object.keys(v).forEach(function(k) {
+						sub = sub.add('<td style="vertical-align: middle; text-align: center;">' + v[k] + "</td>");
+					});
+					sub = sub.wrapAll("<tr />").parent();
+					dst = dst.add(sub);
+				});
+				$('#result-table > tbody').append(dst);
+				var answer = {{.Answer}};
+				$('#answer').append(answer);
+			</script>
+{{else}}
+{{if eq .Lang "ja"}}
+			<p>現在提出が確認されていません。</p>
+{{else}}
+			<p>There are no submits we know.</p>
+{{end}}
+{{end}}
+		</section>
+	</div>
+{{end}}
