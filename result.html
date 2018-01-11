@@ -1,6 +1,14 @@
 {{define "content"}}
 <div class="col-sm-12">
-	<h1>Result #{{.Result.PlayerNumber}}</h1>
+	<h1>Result #{{.Request}}</h1>
+{{if ne .Message ""}}
+	<div class="col-sm-6 col-sm-offset-4">
+		<div class="alert alert-dismissible alert-danger">
+			<button type="button" class="close" data-dismiss="alert">×</button>
+			<p><span class="glyphicon glyphicon-ban-circle"></span> {{.Message}}</p>
+		</div>
+	</div>
+{{else}}
 {{if eq .Result.Status -1}}
 	<section>
 		<h3>Status</h3>
@@ -15,7 +23,7 @@
 {{if eq .Result.Status 1}}
 	<section>
 		<h3>Status</h3>
-		<span class="label label-default">In queue...</span>
+		<span class="label label-default">In queue...({{.Result.QueueIndex}}/{{.Result.QueueLength}})</span>
 		<p>Reload after a while</p>
 	</section>
 {{end}}
@@ -68,5 +76,6 @@
 	</section>
 {{end}} <!-- END OF COMPILE -->
 {{end}} <!-- END OF STATUS -->
+{{end}} <!-- END OF MESSAGE -->
 </div>
 {{end}}

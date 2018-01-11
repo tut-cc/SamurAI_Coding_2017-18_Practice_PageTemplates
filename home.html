@@ -89,7 +89,7 @@
 								sub.status = '<span class="label label-success">Succuess</span>';
 								break;
 							case 1:
-								sub.status = '<span class="label label-default">In queue...</span>';
+								sub.status = '<span class="label label-default">In queue...(' + val.queueIndex + '/' + val.queueLength + ')</span>';
 								break;
 							case 2:
 								sub.status = '<span class="label label-primary">Running...</span>';
