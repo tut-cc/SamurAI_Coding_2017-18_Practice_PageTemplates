@@ -7,7 +7,7 @@
 				<legend>Submit</legend>
 					<div class="form-group">
 						<label for="archive" >Choose your file archive</label>
-						<input type="file" class="form-control-file" id="archive" name="archive" required data-maxfilesize="64" data-mimetype={{.AcceptMIMETypes}}>
+						<input type="file" class="form-control-file" id="archive" name="archive" accept={{.AcceptMIMETypes}} required data-maxfilesize="64" data-mimetype={{.AcceptMIMETypes}}>
 						<div class="help-block with-errors">
 							<p>We will recieve a common achive(zip, tar.gz, tar.bz2, tar.xz).<p>
 							<p>See <a href="/about">here</a> for more infomation.</p>
@@ -54,9 +54,9 @@
 					{{end}}
 					<div class="form-group">
 						<label for="course" >Choose your course file</label>
-						<input type="file" class="form-control-file" id="course" name="course">
+						<input type="file" class="form-control-file" id="course" name="course" accept=".smrjky">
 						<div class="help-block">
-							<p>It is not required field.</p>
+							<p>It is not required field.  You need to select a <code>*.smrjky</code> file if you specify it.</p>
 						</div>
 					</div>
           <div class="form-group">
