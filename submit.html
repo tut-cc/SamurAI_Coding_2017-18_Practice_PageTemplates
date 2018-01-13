@@ -13,7 +13,7 @@
 							<p>See <a href="/about">here</a> for more infomation.</p>
 						</div>
 					</div>
-					<input type="hidden" class="form-control" id="vs" name="vs" value="sanpin">
+					<input type="hidden" class="form-control" id="vs" name="vs" value="">
 					{{if eq "" ""}}
 					<div class="form-group">
 						<label for="vs">Select player which you want to game</label>
@@ -26,12 +26,12 @@
 							var dst = $();
 							dat.battlers.forEach(function(v, i, arr) {
 								var left = $();
-								left = left.add('<img src="/public/img/icon.png" width="32px" align"left">');
-								// left = left.add('<img src="/icons/' + v + ' width="32px" align"left">');
+								left = left.add('<img src="/public/img/icons/' + v + '.png" width="64px" align"left">');
+								// left = left.add('<img src="/icons/' + v + ' width="64px" align"left">');
 								left = left.wrapAll('<div class="media-left" />').parent();
 								var right = $();
 								right = right.add('<p style="display: table-cell;">' + v + '</p>');
-								right = right.wrapAll('<div class="media-body" style="vertical-align: middle;" />');
+								right = right.wrapAll('<div class="media-body" style="vertical-align: middle;" />').parent();
 								var sub = $();
 								sub = sub.add(left);
 								sub = sub.add(right);

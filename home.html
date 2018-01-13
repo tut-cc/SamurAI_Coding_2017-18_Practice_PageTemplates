@@ -68,9 +68,9 @@
 {{if ne .Answer ""}}
 			<div id="win-or-lose" class="bs-component">
 				<div class="well col-sm-4 col-centered text-center">
-					<p class="text-left">{{if eq .Lang "ja"}}拙者{{else}}Me{{end}} <img src="/public/img/icon.png" width="32px"></p>
+					<p class="text-left">{{if eq .Lang "ja"}}拙者{{else}}Me{{end}} <img src="/public/img/icons/default.png" width="64px"></p>
 					<p><span class="lead">{{.MySumTime}}</span> - <span class="lead">{{.OppSumTime}}</span></p>
-					<p class="text-right"><img src="/public/img/icon.png" width="32px"> {{if eq .Lang "ja"}}其方{{else}}Opponent{{end}}</p>
+					<p class="text-right"><img src="/public/img/icons/{{.OppUser}}.png" width="64px"> {{if eq .Lang "ja"}}其方{{else}}Opponent{{end}}</p>
 					<div id="answer" class="col-sm-6 col-centered">
 					</div>
 				</div>
@@ -82,8 +82,8 @@
 					raw.results.forEach(function(val) {
 						var sub = {};
 						sub.playerNumber = val.playerNumber;
-						sub.opponentName = '<span><img src="/public/img/icon.png" width="32px"> ' + val.opponentName + '</span>';
-						// sub.opponentName = '<p class="text-left">' + val.opponentName + ' <img src="/icons/' + val.opponentName + '" width="32px"></p>';
+						sub.opponentName = '<span><img src="/public/img/icons/' + val.opponentName + '.png" width="64px"> ' + val.opponentName + '</span>';
+						// sub.opponentName = '<p class="text-left">' + val.opponentName + ' <img src="/icons/' + val.opponentName + '" width="64px"></p>';
 						switch (val.status) {
 							case 0:
 								sub.status = '<span class="label label-success">Succuess</span>';
