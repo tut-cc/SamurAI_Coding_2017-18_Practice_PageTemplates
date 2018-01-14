@@ -58,21 +58,38 @@
 		<h3>Visualizer</h3>
 {{template "viewer" .}}
 	</section>
+	
 	<section>
-		<h3>Standard Error from your AI</h3>
-		<pre>{{.Result.StderrLog}}</pre>
-	</section>
-	<section>
-		<h3>Standard Input to your AI</h3>
-		<pre>{{.Result.StdinLog}}</pre>
-	</section>
-	<section>
-		<h3>Game Log</h3>
-		<pre>{{.Result.GameLog}}</pre>
-	</section>
-	<section>
-		<h3>Compiler Message</h3>
-		<pre>{{.Result.CompilerMessage}}</pre>
+		<h3>Log</h3>
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#stderr" data-toggle="tab" aria-expanded="true">stderr</a></li>
+			<li class=""><a href="#stdin" data-toggle="tab" aria-expanded="false">stdin</a></li>
+			<li class=""><a href="#course" data-toggle="tab" aria-expanded="false">course</a></li>
+			<li class=""><a href="#gamelog" data-toggle="tab" aria-expanded="false">gamelog</a></li>
+			<li class=""><a href="#compile" data-toggle="tab" aria-expanded="false">compile</a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active" id="stderr" style="margin: 15px;">
+		    <h4>Standard Error from your AI</h4>
+		    <pre>{{.Result.StderrLog}}</pre>
+			</div>
+			<div class="tab-pane" id="stdin" style="margin: 15px;">
+		    <h4>Standard Input to your AI</h4>
+		    <pre>{{.Result.StdinLog}}</pre>
+			</div>
+			<div class="tab-pane" id="course" style="margin: 15px;">
+		    <h4>Course File</h4>
+		    <pre>{{.Result.Course}}</pre>
+			</div>
+			<div class="tab-pane" id="gamelog" style="margin: 15px;">
+		    <h4>Game Log</h4>
+		    <pre>{{.Result.GameLog}}</pre>
+			</div>
+			<div class="tab-pane" id="compile" style="margin: 15px;">
+	      <h4>Compiler Message</h4>
+	      <pre>{{.Result.CompilerMessage}}</pre>
+			</div>
+		</div>
 	</section>
 {{end}} <!-- END OF COMPILE -->
 {{end}} <!-- END OF STATUS -->
