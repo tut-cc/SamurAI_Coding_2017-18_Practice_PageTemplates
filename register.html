@@ -9,13 +9,13 @@
                 <div class="row">
                   <label for="inputUsername" class="col-sm-4 control-label">Username</label>
                   <div class="col-sm-4">
-                    <input class="form-control" pattern="^[_A-z0-9]{4,15}$" maxlength="15" id="inputUsername" name="inputUsername" type="text" required>
+                    <input class="form-control" pattern="^[_A-Za-z0-9]{4,15}$" maxlength="15" id="inputUsername" name="inputUsername" type="text" required>
                     <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                   </div>
                 </div>
                 <div class="row">
                   <div class="help-block with-errors col-sm-8 col-sm-offset-4">
-                    <p>It must be matched by the regex: <code>^[_A-z0-9]{4,15}$</code>.</p>
+                    <p>It must be matched by the regex: <code>^[_A-Za-z0-9]{4,15}$</code>.</p>
                     {{if ne .MessageUsername ""}}
                     <div class="bs-component">
                       <div class="alert alert-dismissible alert-danger">
