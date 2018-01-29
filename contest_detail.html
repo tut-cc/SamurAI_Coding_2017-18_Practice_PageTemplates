@@ -87,8 +87,8 @@
 							line = line.add(wrapTd(v.name0 + " (" + v.time0 + ") - (" + v.time1 + ") " + v.name1 + ' <span class="label label-success">WIN</span>'));
 							break;
 					}
-					line = line.add(wrapTd('<a href="/result/' + v.ticket0 + '">detail #0</a>'));
-					line = line.add(wrapTd('<a href="/result/' + v.ticket1 + '">detail #1</a>'));
+					line = line.add(wrapTd('<a href="/game/' + v.ticket0 + '">detail #0</a>'));
+					line = line.add(wrapTd('<a href="/game/' + v.ticket1 + '">detail #1</a>'));
 					line = line.wrapAll('<tr />').parent();
 					body = body.add(line);
 				});

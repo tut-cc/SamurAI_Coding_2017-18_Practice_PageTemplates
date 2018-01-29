@@ -1,0 +1,56 @@
+{{define "content"}}
+<div class="col-sm-12">
+	<h1>Game: {{.Player0}} vs {{.Player1}}</h1>
+{{if ne .Message ""}}
+	<div class="col-sm-6 col-sm-offset-4">
+		<div class="alert alert-dismissible alert-danger">
+			<button type="button" class="close" data-dismiss="alert">×</button>
+			<p><span class="glyphicon glyphicon-ban-circle"></span> {{.Message}}</p>
+		</div>
+	</div>
+{{else}}
+	<section>
+		<h3>Visualizer</h3>
+{{template "viewer" .}}
+	</section>
+	
+	<section>
+		<h3>Log</h3>
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#gamelog" data-toggle="tab" aria-expanded="true">gamelog</a></li>
+			<li class=""><a href="#course" data-toggle="tab" aria-expanded="false">course</a></li>
+{{if eq .Authorized true}}
+			<li class=""><a href="#stderr" data-toggle="tab" aria-expanded="false">stderr</a></li>
+			<li class=""><a href="#stdin" data-toggle="tab" aria-expanded="false">stdin</a></li>
+			<li class=""><a href="#compile" data-toggle="tab" aria-expanded="false">compile</a></li>
+{{end}}
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active" id="gamelog" style="margin: 15px;">
+		    <h4>Game Log</h4>
+		    <pre>{{.Result.GameLog}}</pre>
+			</div>
+			<div class="tab-pane" id="course" style="margin: 15px;">
+		    <h4>Course File</h4>
+		    <pre>{{.Result.Course}}</pre>
+			</div>
+{{if eq .Authorized true}}
+			<div class="tab-content">
+			<div class="tab-pane" id="stderr" style="margin: 15px;">
+		    <h4>Standard Error from your AI</h4>
+		    <pre>{{.Result.StderrLog}}</pre>
+			</div>
+			<div class="tab-pane" id="stdin" style="margin: 15px;">
+		    <h4>Standard Input to your AI</h4>
+		    <pre>{{.Result.StdinLog}}</pre>
+			</div>
+			<div class="tab-pane" id="compile" style="margin: 15px;">
+	      <h4>Compiler Message</h4>
+	      <pre>{{.Result.CompilerMessage}}</pre>
+			</div>
+{{end}}
+		</div>
+	</section>
+{{end}} <!-- END OF MESSAGE -->
+</div>
+{{end}}
