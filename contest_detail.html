@@ -1,0 +1,114 @@
+{{define "content"}}
+{{if ne .Message ""}}
+	<div class="col-sm-12">
+		<p>.Message</p>
+	</div>
+{{else}}
+	<div class="col-sm-12">
+		<div class="bs-component">
+			<div class="well">
+				<h1>{{.Title}}</h1>
+			</div>
+		</div>
+		<section>
+			<h3>Detail</h3>
+			<ul class="nav nav-tabs">
+				<li class="active"><a href="#final" data-toggle="tab" aria-expanded="true">Final Qualifier</a></li>
+				<li class=""><a href="#pre" data-toggle="tab" aria-expanded="false">First Round</a></li>
+				<li class=""><a href="#games" data-toggle="tab" aria-expanded="false">Game</a></li>
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane active" id="final" style="margin: 15px;">
+				</div>
+				<div class="tab-pane" id="pre" style="margin: 15px;">
+				</div>
+				<div class="tab-pane" id="games" style="margin: 15px;">
+				</div>
+			</div>
+		</section>
+		<script type="text/javascript">
+			var abstTableSchema = ["Rank", "Team Name", "Points", "Time"];
+			var gameTableSchema = ["#", "Group", "Round", "Number", "Result", "Details #0", "Details #1"];
+			var wrapTd = function(s) {
+				return '<td>' + s + '</td>';
+			};
+			var genGroup = function(data) {
+				var header = $();
+				abstTableSchema.forEach(function(v) {
+					header = header.add('<th>' + v + '</th>');
+				});
+				header = header.wrapAll('<tr />').parent();
+				header = header.wrapAll('<thead />').parent();
+				var body = $();
+				data.forEach(function(v) {
+					var line = $();
+					line = line.add(wrapTd(v.rank));
+					line = line.add(wrapTd(v.team_name));
+					line = line.add(wrapTd(v.points));
+					line = line.add(wrapTd(v.time));
+					line = line.wrapAll('<tr />').parent();
+					if (v.selected) {
+						line.addClass("success");
+					}
+					if (v.is_dummy) {
+						line.addClass("active");
+					}
+					body = body.add(line);
+				});
+				body = body.wrapAll('<tbody />').parent();
+				var table = $();
+				table = table.add(header);
+				table = table.add(body);
+				table = table.wrapAll('<table class="table " />').parent();
+				return table;
+			};
+			var genGames = function(data) {
+				var header = $();
+				gameTableSchema.forEach(function(v) {
+					header = header.add('<th>' + v + '</th>');
+				});
+				header = header.wrapAll('<tr />').parent();
+				header = header.wrapAll('<thead />').parent();
+				var body = $();
+				data.forEach(function(v, i) {
+					var line = $();
+					line = line.add(wrapTd(i + 1));
+					line = line.add(wrapTd(v.group + 1));
+					line = line.add(wrapTd(v.round + 1));
+					line = line.add(wrapTd(v.index + 1));
+					switch (v.win) {
+						case -1:
+							line = line.add(wrapTd(v.name0 + " (" + v.time0 + ') <span class="label label-info">DRAW</span> (' + v.time1 + ') ' + v.name1));
+							break;
+						case 0:
+							line = line.add(wrapTd('<span class="label label-success">WIN</span> ' + v.name0 + " (" + v.time0 + ") - " + " (" + v.time1 + ")" + v.name1));
+							break;
+						case 1:
+							line = line.add(wrapTd(v.name0 + " (" + v.time0 + ") - (" + v.time1 + ") " + v.name1 + ' <span class="label label-success">WIN</span>'));
+							break;
+					}
+					line = line.add(wrapTd('<a href="/result/' + v.ticket0 + '">detail #0</a>'));
+					line = line.add(wrapTd('<a href="/result/' + v.ticket1 + '">detail #1</a>'));
+					line = line.wrapAll('<tr />').parent();
+					body = body.add(line);
+				});
+				body = body.wrapAll('<tbody />').parent();
+				var table = $();
+				table = table.add(header);
+				table = table.add(body);
+				table = table.wrapAll('<table class="table table-striped table-hover" />').parent();
+				return table;
+			};
+			$(function() {
+				result = JSON.parse({{.Result}});
+				$("#final").append(genGroup(result.final.members));
+				result.groups.forEach(function(v) {
+					$("#pre").append("<h4>Group #" + v.id + "</h4>");
+					$("#pre").append(genGroup(v.members));
+				});
+				$("#games").append(genGames(result.games));
+			});
+		</script>
+	</div>
+{{end}}
+{{end}}
