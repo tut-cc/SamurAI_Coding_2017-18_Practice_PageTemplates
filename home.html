@@ -9,6 +9,15 @@
 {{end}}
 		</h1>
 		<hr>
+		<section>
+			<h3>
+				Link Google Account
+			</h3>
+			<p>You can see log at the results of Practice Rounds if you assign Google Account via <a href="/oauth2">here</a>.</p>
+{{if ne .Account ""}}
+			<p>Now, you assigned to <code>{{.Account}}</code></p>
+{{end}}
+		</section>
 {{if eq .Lang "ja"}}
 		<section>
 			<h3>
