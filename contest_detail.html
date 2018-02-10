@@ -1,7 +1,7 @@
 {{define "content"}}
 {{if ne .Message ""}}
 	<div class="col-sm-12">
-		<p>.Message</p>
+		<p>{{.Message}}</p>
 	</div>
 {{else}}
 	<div class="col-sm-12">
@@ -53,6 +53,9 @@
 					if (v.is_dummy) {
 						line.addClass("active");
 					}
+					if (!v.success) {
+						line.addClass("danger");
+					}
 					body = body.add(line);
 				});
 				body = body.wrapAll('<tbody />').parent();
@@ -91,8 +94,8 @@
 							line = line.add(wrapTd(v.name0 + " (" + v.time0 + ") - (" + v.time1 + ") " + v.name1 + ' <span class="label label-success">WIN</span>'));
 							break;
 					}
-					line = line.add(wrapTd('<a href="/game/' + v.ticket0 + '">detail #0</a>'));
-					line = line.add(wrapTd('<a href="/game/' + v.ticket1 + '">detail #1</a>'));
+					line = line.add(wrapTd('<a href="/game/' + v.ticket0 + '" rel="noreferrer" target="_blank">detail #0</a>'));
+					line = line.add(wrapTd('<a href="/game/' + v.ticket1 + '" rel="noreferrer" target="_blank">detail #1</a>'));
 					line = line.wrapAll('<tr />').parent();
 					body = body.add(line);
 				});
@@ -105,6 +108,10 @@
 			};
 			$(function() {
 				result = JSON.parse({{.Result}});
+				if (result.courses) {
+					$("#final").append('<p>course files: <a href="' + result.courses.final + '" rel="noreferrer" target="_blank">here</a></p>');
+					$("#pre").append('<p>course files: <a href="' + result.courses.pre + '" rel="noreferrer" target="_blank">here</a></p>');
+				}
 				$("#final").append(genGroup(result.final.members));
 				result.groups.forEach(function(v) {
 					$("#pre").append("<h4>Group #" + v.id + "</h4>");

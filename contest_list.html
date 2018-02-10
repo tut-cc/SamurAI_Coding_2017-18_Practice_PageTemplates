@@ -30,6 +30,9 @@
 					if (v.status == 0) {
 						line = line.add(wrapTd('<span class="label label-success">Succuess</span>'));
 						line = line.add(wrapTd('<a href="/contests/' + v.id + '">Detail</a>'));
+					} else if (v.status == 2) {
+						line = line.add(wrapTd('<span class="label label-info">Verifying...</span>'));
+						line = line.add(wrapTd('-'));
 					} else {
 						line = line.add(wrapTd('<span class="label label-primary">Running...</span>'));
 						line = line.add(wrapTd('-'));
