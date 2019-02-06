@@ -40,7 +40,8 @@
 				header = header.wrapAll('<tr />').parent();
 				header = header.wrapAll('<thead />').parent();
 				var body = $();
-				data.forEach(function(v) {
+				Object.keys(data).forEach(function(i) {
+					var v = data[i];
 					var line = $();
 					line = line.add(wrapTd(v.rank));
 					line = line.add(wrapTd(v.team_name));
@@ -112,11 +113,19 @@
 					$("#final").append('<p>course files: <a href="' + result.courses.final + '" rel="noreferrer" target="_blank">here</a></p>');
 					$("#pre").append('<p>course files: <a href="' + result.courses.pre + '" rel="noreferrer" target="_blank">here</a></p>');
 				}
-				$("#final").append(genGroup(result.final.members));
-				result.groups.forEach(function(v) {
-					$("#pre").append("<h4>Group #" + v.id + "</h4>");
-					$("#pre").append(genGroup(v.members));
-				});
+				if (result.final) {
+					// First round and Final Qualifier
+					$("#final").append(genGroup(result.final.members));
+					result.groups.forEach(function(v) {
+						$("#pre").append("<h4>Group #" + v.id + "</h4>");
+						$("#pre").append(genGroup(v.members));
+					});
+				} else {
+					// Final Qualifier only
+					$("#final").append(genGroup(result.groups[0].members));
+					$("#pre").remove();
+					$("a[href = '#pre']").remove();
+				}
 				$("#games").append(genGames(result.games));
 			});
 		</script>
